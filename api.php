@@ -1,4 +1,5 @@
 <?php
+  // Reservation system for booking appointments
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json; charset=utf-8');
   
@@ -52,7 +53,7 @@
   - Use clear naming';
 
   // LM Studio User Prompt
-  $userPrompt = 'User request: ' . $input;
+  $userPrompt = 'User request: ' . $input['prompt'];
 
 
   // LM Studio REST API endpoint
@@ -116,4 +117,4 @@
 
   $content = trim($content);
   
- echo $content;
+  echo $content;
