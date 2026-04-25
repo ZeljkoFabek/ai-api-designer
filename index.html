@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>AI API Designer</title>
+        <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/fontawesome/css/all.min.css" rel="stylesheet">
+    </head>
+
+    <body class="p-4">
+        <div class="container">
+            <h2>AI API Designer</h2>
+
+            <form id="cvForm">
+                <textarea id="prompt" class="form-control mb-3" placeholder="Describe your system..."></textarea>
+                <button class="btn btn-primary" onclick="sendToAI()">Generate</button>
+            </form>
+
+            <h4>Result</h4>
+            <p id="result"></p>
+
+        </div>
+    </body>
+
+    <script>
+        function sendToAI() {
+
+            var xhr = new XMLHttpRequest();
+
+            var prompts = document.getElementById("prompt").value;
+    
+            document.getElementById("result").innerText = "";
+
+            xhr.addEventListener('readystatechange',function() {
+                if (xhr.readyState == 4 && xhr.status == 200 ) {
+                    document.getElementById("result").innerText = xhr.responseText;
+                }
+            });
+
+            var data = {
+                prompt: prompts
+            };
+
+            xhr.open("POST", "api.php", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+
+</html>

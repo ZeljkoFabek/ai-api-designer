@@ -1,0 +1,60 @@
+{
+  "description": "A reservation system for booking appointments",
+  "api_endpoints": [
+    {
+      "method": "POST",
+      "path": "/app",
+      "description": "Book a new appointment"
+    },
+    {
+      "method": "GET",
+      "path": "/app/{id}",
+      "description": "Get details of an appointment by ID"
+    },
+    {
+      "method": "PUT",
+      "path": "/app/{id}",
+      "description": "Update an existing appointment"
+    },
+    {
+      "method": "DELETE",
+      "path": "/app/{id}",
+      "description": "Cancel an appointment"
+    },
+    {
+      "method": "GET",
+      "path": "/users",
+      "description": "Get list of users"
+    }
+  ],
+  "database_schema": [
+    {
+      "table": "appointments",
+      "fields": [
+        {"name": "id", "type": "INT", "description": "Primary key"},
+        {"name": "user_id", "type": "INT", "description": "Foreign key to users table"},
+        {"name": "date", "type": "DATE", "description": "Appointment date"},
+        {"name": "time", "type": "TIME", "description": "Appointment time"}
+      ]
+    },
+    {
+      "table": "users",
+      "fields": [
+        {"name": "id", "type": "INT", "description": "Primary key"},
+        {"name": "name", "type": "VARCHAR", "description": "User name"},
+        {"name": "email", "type": "VARCHAR", "description": "User email"}
+      ]
+    }
+  ],
+  "example_request_body": {
+    "user_id": 1,
+    "date": "2023-10-05",
+    "time": "14:00"
+  },
+  "example_response": {
+    "id": 1,
+    "user_id": 1,
+    "date": "2023-10-05",
+    "time": "14:00"
+  }
+}
