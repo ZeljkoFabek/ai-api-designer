@@ -2,6 +2,7 @@
   // Reservation system for booking appointments
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json; charset=utf-8');
+  ini_set('max_execution_time', '600');
   
   $input = json_decode(file_get_contents('php://input'), true);
 
@@ -73,7 +74,7 @@
             "content" => $userPrompt
         ]
     ],
-    "max_tokens" => 600,
+    "max_tokens" => 1200,
     "temperature" => 0.1
     
   ];
