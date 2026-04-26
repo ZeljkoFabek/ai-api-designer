@@ -32,12 +32,20 @@
                 <textarea id="prompt" class="form-control mb-3" placeholder="Describe your system..."></textarea>
                 <button type="submit" class="btn btn-primary">Generate</button>
             </form>
+
+            <br>
             
+            <button 
+                class="btn btn-outline-primary mb-3"
+                onclick="generateExamples()"
+                id="toggleBtn">
+                Show Examples
+            </button>
+
             <br>
+            <div id="examples"></div>
             <p id="lastTime"></p>
-            <br>
             <p id="sqlBox"></p>
-            <br>
             <p id="result"></p>
             <br>
         
@@ -72,7 +80,7 @@
     <script>
         var lastData = null;
         var timerInterval = null;
-        var seconds = 0;        
+        var seconds = 0;
         
         /** 
          * Generating SQL from JSON information 
@@ -149,18 +157,18 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
 
-                    var res = JSON.parse(xhr.responseText);
-                    var HTML = '';
-                    
-                    HTML += '<form method="POST">';
-                    HTML += '<input type="hidden" name="download_sql" value="1">';
-                    HTML += '<input type="hidden" name="sql_content" value="' + res.sql + '">';
-                    HTML += '<form method="POST">';
-                    
-                    console.log(res.sql);
+                    document.getElementById("result").innerHTML = '';
 
-                    document.getElementById("sqlBox").innerHTML = '<pre>' + res.sql + '</pre>';
-                    document.getElementById("result").innerHTML = HTML;
+                    var res = JSON.parse(xhr.responseText);
+                    var html = '';
+                    
+                    html += '<form method="POST">';
+                    html += '<input type="hidden" name="download_sql" value="1">';
+                    html += '<input type="hidden" name="sql_content" value="' + res.sql + '">';
+                    html += '<button class="btn btn-success mt-2">Download SQL</button>';
+                    
+                    document.getElementById("sqlBox").innerHTML = '<br><pre>' + res.sql + '</pre><br>';
+                    document.getElementById("result").innerHTML = '<br>' + html + '<br>';
                 }
             };
 
@@ -251,7 +259,48 @@
         
         function deleteCookie(name) {
             document.cookie = name + "=; path=/; max-age=0";
-        }        
+        }
+        
+        function setPrompt(el) {
+            document.getElementById("prompt").value = el.innerText;
+
+            // Hide List Of Examples
+            document.getElementById("examples").style.display = "none";
+            document.getElementById("toggleBtn").innerText = "Show Examples";            
+        }
+        
+        function generateExamples() {
+                var prompts = [
+                "E-commerce system for products, orders and users",
+                "User management system with roles and permissions",
+                "System for managing events, tickets and attendees",
+                "Hospital system for patients, doctors and appointments",
+                "System for storing AI prompts and responses history",
+                "Smart energy system for tracking devices and energy consumption",
+                "Banking system with accounts and transactions",
+                "Inventory management system for products and stock tracking",
+                "Reservation system for booking appointments"
+            ];
+
+            var html = "";
+
+            for (var i = 0; i < prompts.length; i++) {
+                html += '<button class="btn btn-outline-primary btn-sm m-1" onclick="setPrompt(this)" title="Use this example and generate API instantly">' + prompts[i] + '</button>';
+            }
+
+            document.getElementById("examples").innerHTML = html;
+            
+            var btn = document.getElementById("toggleBtn");
+            var box = document.getElementById("examples");
+
+            if (box.style.display === "none") {
+                box.style.display = "block";
+                btn.innerText = "Hide Examples";
+            } else {
+                box.style.display = "none";
+                btn.innerText = "Show Examples";
+            }             
+        }
 
     </script>    
 
