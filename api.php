@@ -1,5 +1,4 @@
 <?php
-  // Reservation system for booking appointments
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json; charset=utf-8');
   ini_set('max_execution_time', '600');
@@ -74,10 +73,12 @@
             "content" => $userPrompt
         ]
     ],
-    "max_tokens" => 1200,
+    "max_tokens" => 1000,
     "temperature" => 0.1
     
   ];
+
+// file_put_contents("promt.json",json_encode($data));
 
   // PHP Curl
   $ch = curl_init();
@@ -86,7 +87,7 @@
   curl_setopt($ch, CURLOPT_POST, true);
   curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Authorization: Bearer " . $AUTHORIZATION,
-      "Content-Type: application/json"
+      "Content-Type: application/json; charset=utf-8"
   ]);
 
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));

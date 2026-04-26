@@ -1,10 +1,8 @@
 <?php
-  header('Access-Control-Allow-Origin: *');
-  header('Content-type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Content-type: application/json; charset=utf-8');
 
 $data = json_decode(file_get_contents('php://input'), true);
-echo $data;
-exit;
 
 function generateSQL($data) {
     $sql = "";
@@ -32,5 +30,5 @@ function generateSQL($data) {
 }
 
 echo json_encode([
-    "sql" => generateSQL($data)
+    "sql" => trim(generateSQL($data))
 ]);
