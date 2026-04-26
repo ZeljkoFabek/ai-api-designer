@@ -1,7 +1,7 @@
 <?php
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json; charset=utf-8');
-  ini_set('max_execution_time', '600');
+  ini_set('max_execution_time', '900');
   
   $input = json_decode(file_get_contents('php://input'), true);
 
@@ -73,7 +73,7 @@
             "content" => $userPrompt
         ]
     ],
-    "max_tokens" => 1000,
+    "max_tokens" => 800,
     "temperature" => 0.1
     
   ];

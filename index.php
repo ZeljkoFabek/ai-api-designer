@@ -36,6 +36,8 @@
             <br>
             <p id="lastTime"></p>
             <br>
+            <p id="sqlBox"></p>
+            <br>
             <p id="result"></p>
             <br>
         
@@ -112,14 +114,14 @@
                     if (last) {
                         var min = Math.floor(last / 60);
                         var sec = last % 60;                        
+
+                        deleteCookie("lastRequestTime");
+                        last = 0;
                         document.getElementById("lastTime").innerText = "Last request took: " + min + "m " + sec + "s";
                     }
 
-                    lastData = xhr.responseText;
-                    var data = JSON.stringify(lastData);
-                    console.log(lastData);
-                    console.log(data);
-                    //renderResult(data);
+                    lastData = xhr.responseText;                    
+                    renderResult(JSON.parse(lastData));
                 }
             });
 
@@ -148,16 +150,16 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
 
                     var res = JSON.parse(xhr.responseText);
-                    var SQL = res.sql;
-
                     var HTML = '';
                     
                     HTML += '<form method="POST">';
                     HTML += '<input type="hidden" name="download_sql" value="1">';
-                    HTML += '<input type="hidden" name="sql_content" value="' + SQL + '">';
+                    HTML += '<input type="hidden" name="sql_content" value="' + res.sql + '">';
                     HTML += '<form method="POST">';
                     
-                    console.log(SQL);
+                    console.log(res.sql);
+
+                    document.getElementById("sqlBox").innerHTML = '<pre>' + res.sql + '</pre>';
                     document.getElementById("result").innerHTML = HTML;
                 }
             };
@@ -245,6 +247,10 @@
             var parts = value.split("; " + name + "=");
 
             if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+        
+        function deleteCookie(name) {
+            document.cookie = name + "=; path=/; max-age=0";
         }        
 
     </script>    
