@@ -1,4 +1,7 @@
 <?php
+    /**
+     * PHP - Send generated SQL to local disk in user as schema.sql
+     */
     if (isset($_POST['download_sql'])) {
 
         $sql = $_POST['sql_content'];
@@ -21,6 +24,7 @@
     </head>
 
     <body class="p-4">
+
         <div class="container">
             <h2>AI API Designer</h2>
 
@@ -37,6 +41,9 @@
         
         </div>
 
+        <!-- modal frame and how long it takes for the process 
+             to complete in minutes and seconds 
+        -->
         <div id="loadingModal" style="
             display:none;
             position:fixed;
@@ -55,14 +62,20 @@
                 <p>Processing request...</p>
                 <p id="timer">0s</p>
             </div>
-        </div>        
+        </div>
+
     </body>
+    <!-- modal frame End  -->
 
     <script>
         var lastData = null;
         var timerInterval = null;
         var seconds = 0;        
         
+        /** 
+         * Generating SQL from JSON information 
+         * sent by LM Studio in response.
+        */  
         function generateSQLClick() {
             if (!lastData) {
                 alert("No data!");
@@ -70,7 +83,11 @@
             }
             getSQL(lastData);
         }
-        
+
+        /** 
+         * sending a query or prompt to LM Studio 
+         * so that it sends a response in JSON format.
+        */        
         function sendToAI(e) {
 
             e.preventDefault();
@@ -117,6 +134,9 @@
             xhr.send(JSON.stringify(data));
         }
 
+        /**
+         * generating SQL from JSON format
+         */
         function getSQL(data){
 
             var xhr = new XMLHttpRequest();
@@ -145,6 +165,10 @@
             xhr.send(data);
         }
 
+        /**
+         * creating EndPoints or REST API routes 
+         * from the JSON format sent by LM Studio in response.
+         */
         function renderResult(data) {
 
             var html = "<h4>Description</h4>";
@@ -177,6 +201,9 @@
             document.getElementById("result").innerHTML = html;
         }
         
+        /**
+         * modal frame show
+         */
         function startLoading() {
 
             seconds = 0;
@@ -195,16 +222,23 @@
             }, 1000);
         }
 
+        /**
+         * modal frame hide or close
+         */        
         function stopLoading() {
 
             clearInterval(timerInterval);
 
             document.getElementById("loadingModal").style.display = "none";
 
-            // spremi vrijeme u cookie (npr. 1 dan)
+            // save time in cookie (e.g. 1 day)
             document.cookie = "lastRequestTime=" + seconds + "; path=/; max-age=86400";
         }
         
+        /**
+         * reading Cookie information how long process 
+             to complete in minutes and seconds
+         */        
         function getCookie(name) {
 
             var value = "; " + document.cookie;
