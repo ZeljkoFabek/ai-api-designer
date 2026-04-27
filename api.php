@@ -8,6 +8,9 @@
   // LM Studio API Key
   $AUTHORIZATION = 'sk-lm-xPDxMIan:hz3isimadnThLjhLjGGg';
 
+  // LM Studio REST API endpoint
+  $LM_STUDIO_URL ="http://localhost:1234/v1/chat/completions";
+
   // LM Studio System Prompt
   $systemPrompt ='You are a senior software architect.
   Your task is to design a backend system based on the user request.
@@ -55,10 +58,6 @@
   // LM Studio User Prompt
   $userPrompt = 'User request: ' . $input['prompt'];
 
-
-  // LM Studio REST API endpoint
-  $url = "http://localhost:1234/v1/chat/completions";
-
   // LM Studio JSON Strocture
   $data = [
 
@@ -82,7 +81,7 @@
 
   // PHP Curl
   $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_URL, $LM_STUDIO_URL);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_POST, true);
   curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -100,8 +99,9 @@
 
   if(curl_errno($ch)){
     echo json_encode([
-        "error" => "LM Studio not responding",
-        "details" => curl_error($ch)
+        'status' => 'error',
+        'error' => 'LM Studio not responding',
+        'details' => curl_error($ch)
     ]);
     exit;
 }

@@ -105,8 +105,6 @@
             var xhr = new XMLHttpRequest();
 
             var prompt = document.getElementById("prompt").value;
-            var inerHTML = '<h4>Result</h4>' +
-                           '<button class="btn btn-success mt-2" onclick="generateSQLClick()">Generate SQL</button>';
     
             document.getElementById("result").innerText = "";
 
@@ -114,22 +112,45 @@
                 if (xhr.readyState == 4 && xhr.status == 200 ) {
 
                     stopLoading();
-                    
-                    document.getElementById("result").innerHTML = inerHTML;
-                    
-                    var last = getCookie("lastRequestTime");
 
-                    if (last) {
-                        var min = Math.floor(last / 60);
+                    lastData = "{}";
+                    var res = JSON.parse(xhr.responseText);
+                    
+                    if(res.status != "error") {
+
+                        res = "{}";
+
+                        var inerHTML = '<h4>Result</h4>' +
+                           '<button class="btn btn-success mt-2" onclick="generateSQLClick()">Generate SQL</button>';
+
+                        document.getElementById("result").innerHTML = inerHTML;
+                        
+                        var last = getCookie("lastRequestTime");
+
+                        if (last) {
+                            var min = Math.floor(last / 60);
+                            var sec = last % 60;                        
                         var sec = last % 60;                        
+                            var sec = last % 60;                        
 
-                        deleteCookie("lastRequestTime");
-                        last = 0;
-                        document.getElementById("lastTime").innerText = "Last request took: " + min + "m " + sec + "s";
+                            deleteCookie("lastRequestTime");
+                            last = 0;
+                            document.getElementById("lastTime").innerText = "Last request took: " + min + "m " + sec + "s";
+                        }
+                        
+                        lastData = xhr.responseText;
+                        renderResult(JSON.parse(lastData));
+
+                    } else {
+
+                        var inerHTML = "<img class='img-fluid w-100' src='assets/images/LMServe.png' style='object-fit:cover;' alt=''>" +
+                                       "<br><div style='padding:15px; background:#ffdddd;" +
+                                       "border:1px solid red;'>⚠️ LM Studio not running<br>" +
+                                       "Please start LM Studio and ensure the local server is active at:<br>" +
+                                       "<b>http://localhost:1234 or http://127.0.0.1:1234</b></div>";
+                        
+                        document.getElementById("result").innerHTML = inerHTML;
                     }
-
-                    lastData = xhr.responseText;                    
-                    renderResult(JSON.parse(lastData));
                 }
             });
 

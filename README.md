@@ -1,37 +1,258 @@
+# 🚀 AI API Designer (Local AI System)
 
-## Description
-This project demonstrates a simple system design tool using local AI (LM Studio).
+## 📌 Overview
 
-## Problem
-Developers and analysts need quick API and database design.
+AI API Designer is a local AI-powered tool that helps generate:
 
-## Solution
-This tool generates:
-- API endpoints
-- Database schema
+* REST API design
+* Database schema
+* Example request/response structures
 
-## Tech
-- PHP (no framework)
-- Bootstrap 5
-- LM Studio (local AI API)
+The system uses a **local AI model via LM Studio**, meaning:
 
-## Architecture
-    PHP 8.0+ backend
-    REST API call to LM Studio
-    Bootstrap 5.0+ frontend
+* ✅ No cloud AI required
+* ✅ Works fully offline
+* ✅ Your data stays private
 
-## How to run
+---
+
+## 🎯 Problem
+
+Developers and analysts often need to quickly design backend systems, APIs, and database structures.
+
+Manual design takes time and slows down prototyping.
+
+---
+
+## 💡 Solution
+
+This tool automatically generates:
+
+* API endpoints
+* Database schema
+* Example request and response data
+* SQL schema (MySQL / SQLite)
+
+Using local AI, the system provides **instant backend design suggestions**.
+
+---
+
+## ✨ Features
+
+* Generate REST API endpoints
+* Generate database schema
+* Generate example request/response
+* SQL generator (MySQL / SQLite)
+* Copy SQL to clipboard
+* Download SQL file
+* Example prompts for quick testing
+* Works fully offline (LM Studio)
+
+---
+
+## 🏗️ Architecture
+
+```
+User (Browser / Android / Desktop)
+        ↓
+PHP Backend (api.php)
+        ↓
+LM Studio REST API (localhost:1234)
+        ↓
+Local AI Model (LLM)
+
+Output:
+JSON → parsed → HTML UI + SQL Generator
+```
+
+---
+
+## 🧰 Tech Stack
+
+* PHP 8+
+* Vanilla JavaScript (XMLHttpRequest)
+* Bootstrap 5 (local assets)
+* LM Studio (Local AI)
+* REST API
+
+---
+
+## ⚙️ Requirements
+
+* Windows / Linux / MacOS
+* PHP 8+
+* Web browser (Chrome, Firefox, Edge)
+* LM Studio
+
+---
+
+## 🚀 How to Run
+
 1. Start LM Studio API
-2. Run PHP server
-3. Open index.php
+2. Start Apache (XAMPP or similar)
+3. Open in browser:
 
-## Example
-Input:
-"Reservation system"
+```
+http://localhost/ai-api-designer/index.php
+```
 
-## Output:
-JSON with API and DB schema
+---
 
+## 🤖 AI Setup (LM Studio)
 
+### 1. Install LM Studio
 
+👉 https://lmstudio.ai/
 
+---
+
+### 2. Download a model
+
+Open **Model Search** in LM Studio and install one:
+
+Recommended:
+
+* 🟢 Low-end PC
+  `qwen2.5-coder-7b-instruct`
+
+* 🟡 Medium PC
+  `qwen3-8b`
+
+* 🔴 High-end PC
+  `llama 3.1 8b`
+
+---
+
+### 3. Load model
+
+* Go to **Local Models**
+* Click model
+* Press **Load**
+
+---
+
+### 4. Start server
+
+* Go to **Local Server**
+* Click **Start Server**
+
+Default:
+
+```
+http://localhost:1234
+```
+
+---
+
+## 📥 Example Prompts
+
+You can test with:
+
+1. E-commerce system for products, orders and users
+2. User management system with roles and permissions
+3. System for managing events, tickets and attendees
+4. Hospital system for patients, doctors and appointments
+5. System for storing AI prompts and responses history
+6. Smart energy system for tracking devices and energy consumption
+7. Banking system with accounts and transactions
+8. Inventory management system for products and stock tracking
+9. Reservation system for booking appointments
+
+---
+
+## 📤 Output
+
+The system returns structured JSON:
+
+* API endpoints
+* Database schema
+* Example request/response
+
+Which is then converted into:
+
+* UI display
+* SQL schema
+
+---
+
+## 📸 Screenshots
+
+### Main
+![Main 1](screenshots/main1.png)
+![Main 2](screenshots/main2.png)
+
+### Error No response from AI
+![Main 3](screenshots/main3.png)
+
+### AI LM Studio Generate REST API endpoints 
+![API](screenshots/api.png)
+
+### AI LM Studio Generate SQL 
+![SQL](screenshots/sql.png)
+
+---
+
+## ⚠️ Troubleshooting
+
+### No response from AI
+
+* Make sure LM Studio is running
+* Check API URL: `localhost:1234`
+
+### Slow response
+
+* Use smaller model (7B)
+* Close other applications
+
+### JSON parse error
+
+* Model returned invalid JSON
+* Retry or switch model
+
+---
+
+## 🔄 Alternative (Cloud AI)
+
+The system can be adapted to use:
+
+* OpenAI API
+* Google Gemini
+* Other cloud AI providers
+
+Change endpoint in:
+
+```php
+$LM_STUDIO_URL = "http://localhost:1234/v1/chat/completions";
+```
+
+---
+
+## 👤 Author
+
+**Željko Fabek**
+
+Self-taught developer with focus on:
+
+* PHP backend development
+* REST API systems
+* Android (Java) applications
+* Local AI integration (LM Studio)
+
+---
+
+## 🚀 Future Improvements
+
+* ER diagram generator
+* PDF export
+* Android client integration
+* Desktop Java client
+* Cloud AI support
+* User authentication
+
+---
+
+## 📄 License
+
+This project is open-source and available for learning and experimentation.
+
+---
