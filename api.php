@@ -50,8 +50,8 @@
 
   Rules:
   - Keep it simple and realistic
-  - Max 5 API endpoints
-  - Max 2 tables
+  - Max 10 API endpoints
+  - Max 10 tables
   - Do not include explanations outside JSON
   - Use clear naming';
 
@@ -61,7 +61,7 @@
   // LM Studio JSON Strocture
   $data = [
 
-    "model" => "local-model",
+    "model" => "qwen2.5-coder-7b-instruct",
     "messages" => [
         [
             "role" => "system",
@@ -72,7 +72,7 @@
             "content" => $userPrompt
         ]
     ],
-    "max_tokens" => 800,
+    "max_tokens" => 3000,
     "temperature" => 0.1
     
   ];

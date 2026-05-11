@@ -43,6 +43,8 @@ Using local AI, the system provides **instant backend design suggestions**.
 * Generate database schema
 * Generate example request/response
 * SQL generator (MySQL / SQLite)
+* ER Diagram generator (Mermaid.js)
+* Download ER diagram as PNG
 * Copy SQL to clipboard
 * Download SQL file
 * Example prompts for quick testing
@@ -106,21 +108,22 @@ http://localhost/ai-api-designer/index.php
 
 ---
 
-### 2. Download a model
+### 2. Download Recommended Model
 
-Open **Model Search** in LM Studio and install one:
+Open **Model Search** in LM Studio and install:
 
-Recommended:
+Recommended model:
 
-* 🟢 Low-end PC
-  `qwen2.5-coder-7b-instruct`
+* ✅ `qwen2.5-coder-7b-instruct`
 
-* 🟡 Medium PC
-  `qwen3-8b`
+Why this model?
 
-* 🔴 High-end PC
-  `llama 3.1 8b`
+* Best SQL generation quality
+* Most stable JSON output
+* Better API/database structure generation
+* Optimized for programming tasks
 
+Other general-purpose models may generate invalid JSON or incorrect SQL schemas.
 ---
 
 ### 3. Load model
@@ -194,6 +197,13 @@ Which is then converted into:
 
 ## ⚠️ Troubleshooting
 
+### Invalid SQL or broken JSON
+
+If generated SQL is incorrect or JSON parsing fails:
+
+* Use `qwen2.5-coder-7b-instruct`
+* Some general-purpose models are not optimized for backend/API generation
+  
 ### No response from AI
 
 * Make sure LM Studio is running
@@ -242,7 +252,6 @@ Self-taught developer with focus on:
 
 ## 🚀 Future Improvements
 
-* ER diagram generator
 * PDF export
 * Android client integration
 * Desktop Java client

@@ -21,6 +21,10 @@
         <title>AI API Designer</title>
         <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/fontawesome/css/all.min.css" rel="stylesheet">
+        <!-- <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script> -->
+        <script src="assets/js/mermaid.min.js"></script>
+        <script src="assets/js/html2canvas.min.js"></script>
     </head>
 
     <body class="p-4">
@@ -43,10 +47,31 @@
             </button>
 
             <br>
-            <div id="examples"></div>
-            <p id="lastTime"></p>
-            <p id="sqlBox"></p>
-            <p id="result"></p>
+            <div class="mt-4">
+                <div id="examples"></div>
+            </div>
+
+            <div class="mt-4">
+                <p id="lastTime"></p>
+            </div>
+
+            <div class="mt-4">
+                <p id="sqlBox"></p>
+            </div>
+
+            <div id="erSection" class="mt-4" style="display:none;">
+                <h4>ER Diagram</h4>
+                <button class="btn btn-success mb-2"
+                        onclick="downloadERDiagram()">
+                    Download Diagram
+                </button>
+                <div id="erDiagram" class="border p-3 bg-white"></div>
+            </div>
+
+            <div class="mt-4">
+                <p id="result"></p>
+            </div>
+            
             <br>
         
         </div>
@@ -78,9 +103,109 @@
     <!-- modal frame End  -->
 
     <script>
+
+        var erSection = document.getElementById("erSection");
+
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+
+        function generateER(data) {
+
+            var schema = data.database_schema;
+
+            var mermaidText = "erDiagram\n\n";
+
+            // TABLE
+            for (var i = 0; i < schema.length; i++) {
+
+                var table = schema[i];
+
+                mermaidText += "    " + table.table + " {\n";
+
+                for (var j = 0; j < table.fields.length; j++) {
+
+                    var field = table.fields[j];
+
+                    mermaidText +=
+                        "        " +
+                        field.type +
+                        " " +
+                        field.name +
+                        "\n";
+                }
+
+                mermaidText += "    }\n\n";
+            }
+
+            // RELATION
+            for (var i = 0; i < schema.length; i++) {
+
+                var table = schema[i];
+
+                for (var j = 0; j < table.fields.length; j++) {
+
+                    var field = table.fields[j];
+
+                    // user_id -> users
+                    if (field.name.indexOf("_id") !== -1) {
+
+                        var parent = field.name.replace("_id", "");
+                        var child = table.table;
+
+                        mermaidText +=
+                            "    " +
+                            parent +
+                            " ||--o{ " +
+                            child +
+                            " : has\n";
+                    }
+                }
+            }
+
+            console.log(mermaidText);
+
+            document.getElementById("erDiagram").innerHTML =
+                '<div class="mermaid">' +
+                mermaidText +
+                '</div>';
+
+            mermaid.init(undefined,
+                document.querySelectorAll(".mermaid"));
+        }
+
+        function downloadERDiagram() {
+            var element = document.getElementById("erDiagram");
+            html2canvas(element).then(function(canvas) {
+                var link = document.createElement("a");
+                link.download = "er-diagram.png";
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+        
+        function showErDiagram() {
+            erSection.style.display = "block";
+        }
+
+        function hideErDiagram() {
+            erSection.style.display = "none";
+        }
+    </script>
+
+    <script>
         var lastData = null;
         var timerInterval = null;
         var seconds = 0;
+
+        hideErDiagram();
+
+        if(timerInterval != null) {
+            clearInterval(timerInterval);
+            document.getElementById("timer").innerText = "";
+        }
         
         /** 
          * Generating SQL from JSON information 
@@ -98,7 +223,7 @@
          * sending a query or prompt to LM Studio 
          * so that it sends a response in JSON format.
         */        
-        function sendToAI(e) {
+        function sendToAI(e) {            
 
             e.preventDefault();
 
@@ -107,6 +232,9 @@
             var prompt = document.getElementById("prompt").value;
     
             document.getElementById("result").innerText = "";
+
+            clearInterval(timerInterval);
+            document.getElementById("timer").innerText = "";            
 
             xhr.addEventListener('readystatechange',function() {
                 if (xhr.readyState == 4 && xhr.status == 200 ) {
@@ -130,7 +258,7 @@
                         if (last) {
                             var min = Math.floor(last / 60);
                             var sec = last % 60;                        
-                        var sec = last % 60;                        
+                            var sec = last % 60;                        
                             var sec = last % 60;                        
 
                             deleteCookie("lastRequestTime");
@@ -139,7 +267,10 @@
                         }
                         
                         lastData = xhr.responseText;
+
+                        showErDiagram();
                         renderResult(JSON.parse(lastData));
+                        generateER(JSON.parse(lastData));
 
                     } else {
 
@@ -292,15 +423,15 @@
         
         function generateExamples() {
                 var prompts = [
-                "E-commerce system for products, orders and users",
-                "User management system with roles and permissions",
-                "System for managing events, tickets and attendees",
-                "Hospital system for patients, doctors and appointments",
-                "System for storing AI prompts and responses history",
-                "Smart energy system for tracking devices and energy consumption",
-                "Banking system with accounts and transactions",
-                "Inventory management system for products and stock tracking",
-                "Reservation system for booking appointments"
+                "Complete E-commerce system for products, orders, users, order-items, order details",
+                "Complete User management system with roles and permissions",
+                "Complete System for managing events, tickets and attendees",
+                "Complete Hospital system for patients, doctors and appointments",
+                "Complete System for storing AI prompts and responses history",
+                "Complete Smart energy system for tracking devices and energy consumption",
+                "Complete Banking system with accounts and transactions",
+                "Complete Inventory management system for products and stock tracking",
+                "Complete Reservation system for booking appointments"
             ];
 
             var html = "";
