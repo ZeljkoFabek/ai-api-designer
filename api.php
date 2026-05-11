@@ -50,8 +50,8 @@
 
   Rules:
   - Keep it simple and realistic
-  - Max 10 API endpoints
-  - Max 10 tables
+  - Max 5 API endpoints
+  - Max 5 tables
   - Do not include explanations outside JSON
   - Use clear naming';
 
@@ -72,8 +72,8 @@
             "content" => $userPrompt
         ]
     ],
-    "max_tokens" => 3000,
-    "temperature" => 0.1
+    "max_tokens" => 1000,
+    "temperature" => 0.2
     
   ];
 

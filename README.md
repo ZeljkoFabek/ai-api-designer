@@ -151,15 +151,15 @@ http://localhost:1234
 
 You can test with:
 
-1. E-commerce system for products, orders and users
-2. User management system with roles and permissions
-3. System for managing events, tickets and attendees
-4. Hospital system for patients, doctors and appointments
-5. System for storing AI prompts and responses history
-6. Smart energy system for tracking devices and energy consumption
-7. Banking system with accounts and transactions
-8. Inventory management system for products and stock tracking
-9. Reservation system for booking appointments
+1. Complete E-commerce system for products, orders, users, order-items, order details
+2. Complete User management system with roles and permissions
+3. Complete System for managing events, tickets and attendees
+4. Complete Hospital system for patients, doctors and appointments
+5. Complete System for storing AI prompts and responses history
+6. Complete Smart energy system for tracking devices and energy consumption
+7. Complete Banking system with accounts and transactions
+8. Complete Inventory management system for products and stock tracking
+9. Complete Reservation system for booking appointments
 
 ---
 
@@ -188,7 +188,8 @@ Which is then converted into:
 ![Main 3](screenshots/main3.png)
 
 ### AI LM Studio Generate REST API endpoints 
-![API](screenshots/api.png)
+![API](screenshots/api_01.png)
+![API](screenshots/api_02.png)
 
 ### AI LM Studio Generate SQL 
 ![SQL](screenshots/sql.png)
